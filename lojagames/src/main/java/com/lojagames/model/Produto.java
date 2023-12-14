@@ -1,27 +1,25 @@
 package com.lojagames.model;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "tb_categorias")
-public class Categoria {
+@Table(name = "tb_produtos")
+public class Produto {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	
 	@NotBlank(message = "O Atributo nome é obrigatório")
 	@Size(max = 50, message = "O nome precisa ter no minimo 5 caracteres e no maximo 100" )
@@ -33,15 +31,23 @@ public class Categoria {
 	@Column (length = 500)
 	private String descricao;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "categoria",cascade  = CascadeType.REMOVE)
-	@JsonIgnoreProperties("categoria")
-	private List<Produto> produto;
+	@NotBlank(message = "O Atributo nome é obrigatório")
+	@Size(max = 50, message = "O nome precisa ter no minimo 5 caracteres e no maximo 100" )
+	@Column (length = 50)
+	private String distribuidora;
+		
+	@NotNull
+	private Float preco;
+	
+	@ManyToOne
+	@JsonIgnoreProperties("produto")
+	private Categoria categoria;
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -61,16 +67,36 @@ public class Categoria {
 		this.descricao = descricao;
 	}
 
-	public List<Produto> getProduto() {
-		return produto;
+	public String getDistribuidora() {
+		return distribuidora;
 	}
 
-	public void setProduto(List<Produto> produto) {
-		this.produto = produto;
+	public void setDistribuidora(String distribuidora) {
+		this.distribuidora = distribuidora;
+	}
+
+	public Float getPreco() {
+		return preco;
+	}
+
+	public void setPreco(Float preco) {
+		this.preco = preco;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 	
 	
 	
 	
+	
+	
+	
+
 	
 }
